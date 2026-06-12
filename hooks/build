@@ -3,6 +3,7 @@ from plumbum import FG, local
 from plumbum.cmd import date, docker
 
 # Check environment variables are present
+DOCKER_REPO = local.env.get("DOCKER_REPO", "tecnativa/postgres-autoconf")
 DOCKER_TAG = local.env["DOCKER_TAG"]
 COMMIT = local.env.get("GIT_SHA1")
 DATE = date("--rfc-3339", "ns")
@@ -19,7 +20,7 @@ DATE = date("--rfc-3339", "ns")
         "--build-arg",
         "BASE_TAG={}".format(DOCKER_TAG),
         "--tag",
-        "tecnativa/postgres-autoconf:{}".format(DOCKER_TAG),
+        "{}:{}".format(DOCKER_REPO, DOCKER_TAG),
         ".",
     ]
     & FG
